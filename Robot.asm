@@ -151,8 +151,8 @@ RecieveID:
 		brne RcvSkip	; If not equal, return to main
 
 CmdLoop:sbis UCSR0A, RXC0 	; If Equal, poll for Recieve Complete
-		rcall RecieveCmd	; If Complete: Jump to RecieveCmd
 		rjmp CmdLoop		; If Not Complete: Loop
+		rcall RecieveCmd	; If Complete: Jump to RecieveCmd
 
 RcvSkip: 
 		; Restore variable by popping them from the stack in reverse order

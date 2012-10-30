@@ -99,8 +99,8 @@ MAIN:
 
 IDLoop:
 		sbis UCSR0A, UDRE0
-		rcall sendCmd
 		rjmp IDLoop
+		rcall sendCmd
 
 		rjmp	MAIN
 
