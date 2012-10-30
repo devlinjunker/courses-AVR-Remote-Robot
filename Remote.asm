@@ -86,21 +86,21 @@ INIT:
 ; Main Program
 ;-----------------------------------------------------------
 MAIN:
-		sbis UCSR0A, UDRE0
+		sbis UCSR0A, UDRE0		; Loop until all Transmissions finished
 		rjmp MAIN
 		
-		in mpr, PIND
-		andi mpr, $1F
-		cpi mpr, $00
-		breq MAIN
+		in mpr, PIND			; Load PORT D Inputs
+		andi mpr, $1F			; Mask Out 5-7 Pins
+		cpi mpr, $00			
+		breq MAIN				; If no input jump to beginning
 		
-		ldi r17, BotID
-		out UDR0, r17
+		ldi r17, BotID			; Load BotID into register
+		out UDR0, r17			; Output on Transmitter
 
 IDLoop:
-		sbis UCSR0A, UDRE0
+		sbis UCSR0A, UDRE0		; Loop until transmission finished
 		rjmp IDLoop
-		rcall sendCmd
+		rcall sendCmd			; Call sendCmd routine
 
 		rjmp	MAIN
 
@@ -109,50 +109,55 @@ IDLoop:
 ;***********************************************************
 ;-----------------------------------------------------------
 ; Func: sendCmd
-; Desc: Obtains first signal from receiever buffer and compares
-; 		against the designated BotID. If our BOT, poll reciever
-; 		complete flag until command recieved then call RecieveCommand
+; Desc: Determines which button was pressed and sends specified
+;		singal based on the button
+; 		0th button = Forward
+; 		1st button = Backward
+; 		2nd button = Turn Left
+; 		3rd button = Turn Right
+; 		4th button = Halt
+; 		
 ;-----------------------------------------------------------
 sendCmd:
 
 checkFwd:
-		cpi mpr, (1<<0)
-		brne checkBack
+		cpi mpr, (1<<0) 	; Check if First Button Pressed
+		brne checkBack		; If not go to next button
 
-		ldi r17, MovFwd
-		out UDR0, r17
-		rjmp end
+		ldi r17, MovFwd		; Load Move Fowards Command into register
+		out UDR0, r17		; Output to transmitter
+		rjmp end			; jump to end
 checkBack:
-		cpi mpr, (1<<1)
-		brne checkLeft
+		cpi mpr, (1<<1) 	; Check if Second Button Pressed
+		brne checkLeft		; If not go to next button
 		
-		ldi r17, MovBck
-		out UDR0, r17
-		rjmp end
+		ldi r17, MovBck		; Load Move Backward Command into register
+		out UDR0, r17		; Output to transmitter
+		rjmp end			; jump to end
 checkLeft:
-		cpi mpr, (1<<2)
-		brne checkRight
+		cpi mpr, (1<<2)		; Check if Third Button Pressed
+		brne checkRight		; If not go to next button
 
-		ldi r17, TurnL
-		out UDR0, r17
-		rjmp end
+		ldi r17, TurnL		; Load Turn Left Command into register
+		out UDR0, r17		; Output to transmitter
+		rjmp end			; jump to end
 checkRight:
-		cpi mpr, (1<<3)
-		brne checkHalt
+		cpi mpr, (1<<3)		; Check if Fourth Button Pressed
+		brne checkHalt		; If not go to next button
 
-		ldi r17, TurnR
-		out UDR0, r17
-		rjmp end
+		ldi r17, TurnR		; Load Turn Right Command into register
+		out UDR0, r17		; Output to transmitter
+		rjmp end			; jump to end
 checkHalt:
-		cpi mpr, (1<<4)
-		brne end
+		cpi mpr, (1<<4)		; Check if Fifth Button Pressed
+		brne end			; If not go to end
 		
-		ldi r17, Halt
-		out UDR0, r17
-		rjmp end
+		ldi r17, Halt		; Load Halt Command into register
+		out UDR0, r17		; Output to transmitter
+		rjmp end			; jump to end
 end:
 
-		ret
+		ret					; Return from Function
 
 
 ;***********************************************************
