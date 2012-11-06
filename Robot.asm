@@ -94,18 +94,18 @@ INIT:
 	out PORTD, mpr			; Set Input to Hi-Z
 	
 	
-	;USART0
+	;USART1
+	;Enable receiver and Enable receive interrupts
+	ldi mpr, (1<<TXEN1)|(1<<RXEN1)|(1<<RXCIE1)
+	sts UCSR1B, mpr
+	;Set frame format: 8data, 2 stop bit
+	ldi mpr, (1<<USBS1)|(3<<UCSZ01)
+	sts UCSR1C,mpr
 	;Set baudrate at 2400bps
 	ldi mpr, 0b00001001
-	sts UBRR0H, mpr
+	sts UBRR1H, mpr
 	ldi mpr, 0b01100000
-	out UBRR0L, mpr
-	;Enable receiver and Enable receive interrupts
-	ldi mpr, (1<<TXEN0)|(1<<RXEN0)|(1<<RXCIE0)
-	out UCSR0B, mpr
-	;Set frame format: 8data, 2 stop bit
-	ldi r16, (1<<USBS0)|(3<<UCSZ00)
-	sts UCSR0C,r16
+	sts UBRR1L, mpr
 
 	; Initialize external interrupts
 	; Set the Interrupt Sense Control to Falling Edge detection
@@ -146,12 +146,16 @@ RecieveID:
 		in mpr, SREG
 		push mpr
 		
-		in mpr, UDR0 	; Get signal from buffer
+		lds mpr, UDR1 	; Get signal from buffer
 		cpi mpr, BotID	; Compare against BotID
 		brne RcvSkip	; If not equal, return to main
 
-CmdLoop:sbis UCSR0A, RXC0 	; If Equal, poll for Recieve Complete
+CmdLoop:
+		lds r17, UCSR1A
+		cpi r17, (1<<RXC1)
+		breq Recieve		; If Equal, poll for Recieve Complete
 		rjmp CmdLoop		; If Not Complete: Loop
+Recieve:		
 		rcall RecieveCmd	; If Complete: Jump to RecieveCmd
 
 RcvSkip: 
@@ -266,7 +270,7 @@ RecieveCmd:
 		in mpr, SREG
 		push mpr
 		
-		in mpr, UDR0 	; Get command from buffer
+		lds mpr, UDR1 	; Get command from buffer
 		LSL mpr			; Shift out MSB (1 to represent signal)
 		cpi mpr, MovFwd
 		brne checkBack

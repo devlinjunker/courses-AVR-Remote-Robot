@@ -1,5 +1,5 @@
 
-AVRASM ver. 2.1.42  C:\Users\Devlin\Dropbox\CS Stuff\ECE 375\AVR4\Lab6\Robot.asm Mon Oct 29 22:53:21 2012
+AVRASM ver. 2.1.42  C:\Users\Devlin\Dropbox\CS Stuff\ECE 375\AVR4\Lab6\Remote.asm Mon Nov 05 13:44:40 2012
 
 
 EQU  SIGNATURE_000 0000001e
@@ -868,37 +868,26 @@ EQU  TWIaddr      00000042
 EQU  SPMRaddr     00000044
 EQU  INT_VECTORS_SIZE 00000046
 DEF  mpr          r16
-DEF  waitcnt      r17
-DEF  ilcnt        r18
-DEF  olcnt        r19
-EQU  WTime        00000064
-EQU  WskrR        00000000
-EQU  WskrL        00000001
 EQU  EngEnR       00000004
 EQU  EngEnL       00000007
 EQU  EngDirR      00000005
 EQU  EngDirL      00000006
 EQU  BotID        00000033
-EQU  MovFwd       00000060
-EQU  MovBck       00000000
-EQU  TurnR        00000040
-EQU  TurnL        00000020
-EQU  Halt         00000090
+EQU  MovFwd       000000b0
+EQU  MovBck       00000080
+EQU  TurnR        000000a0
+EQU  TurnL        00000090
+EQU  Halt         000000c8
+EQU  Freez        000000f8
 CSEG INIT         00000046
-CSEG HitRight     00000074
-CSEG HitLeft      00000085
-CSEG RecieveID    00000067
-CSEG MAIN         00000064
-CSEG RcvSkip      00000070
-CSEG CmdLoop      0000006d
-CSEG RecieveCmd   000000a6
-CSEG Wait         00000096
-CSEG Loop         0000009a
-CSEG OLoop        0000009b
-CSEG ILoop        0000009c
-CSEG checkBack    000000b0
-CSEG checkFwd     000000ad
-CSEG exit         000000c4
-CSEG checkLeft    000000b5
-CSEG checkRight   000000ba
-CSEG checkHalt    000000bf
+CSEG MAIN         0000005a
+CSEG GO           0000005f
+CSEG IDLoop       00000066
+CSEG CMD          0000006b
+CSEG sendCmd      0000006d
+CSEG checkFwd     0000006d
+CSEG checkBack    00000073
+CSEG end          0000008b
+CSEG checkLeft    00000079
+CSEG checkRight   0000007f
+CSEG checkHalt    00000085

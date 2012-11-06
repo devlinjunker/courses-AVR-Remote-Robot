@@ -60,25 +60,25 @@ INIT:
 	out SPH, mpr
 	ldi mpr, LOW(RAMEND)
 	out SPL, mpr
-	
-	; Initialize Port D for input
-	ldi mpr, $00
-	out DDRD, mpr			; Set Port D as Input
-	ldi mpr, $FF
-	out PORTD, mpr	
 
-	;USART0
+	; Initialize Port D for input
+	ldi mpr, $0C
+	out DDRD, mpr			; Set Port D as Input
+	ldi mpr, $F3
+	out PORTD, mpr	
+	
+	;USART1
+	;Enable transmitter
+	ldi mpr, (1<<TXEN1)|(1<<RXEN1)
+	sts UCSR1B, mpr
+	;Set frame format: 8data, 2 stop bit
+	ldi mpr, (1<<USBS1)|(3<<UCSZ10)
+	sts UCSR1C,mpr
 	;Set baudrate at 2400bps
 	ldi mpr, 0b00001001
-	sts UBRR0H, mpr
+	sts UBRR1H, mpr
 	ldi mpr, 0b01100000
-	out UBRR0L, mpr
-	;Enable transmitter
-	ldi mpr, (1<<TXEN0)
-	out UCSR0B, mpr
-	;Set frame format: 8data, 2 stop bit
-	ldi r16, (1<<USBS0)|(3<<UCSZ00)
-	sts UCSR0C,r16
+	sts UBRR1L, mpr
 	;Other
 
 
@@ -86,20 +86,26 @@ INIT:
 ; Main Program
 ;-----------------------------------------------------------
 MAIN:
-		sbis UCSR0A, UDRE0		; Loop until all Transmissions finished
+		lds mpr, UCSR1A			; Loop until all Transmissions finished
+		cpi mpr, (1<<UDRE1)
+		breq GO 
 		rjmp MAIN
 		
+GO:
 		in mpr, PIND			; Load PORT D Inputs
-		andi mpr, $1F			; Mask Out 5-7 Pins
+		andi mpr, $F3			; Mask Out 5-7 Pins
 		cpi mpr, $00			
 		breq MAIN				; If no input jump to beginning
 		
 		ldi r17, BotID			; Load BotID into register
-		out UDR0, r17			; Output on Transmitter
+		sts UDR1, r17			; Output on Transmitter
 
 IDLoop:
-		sbis UCSR0A, UDRE0		; Loop until transmission finished
-		rjmp IDLoop
+		lds r17, UCSR1A
+		cpi r17, (1<<UDRE1)
+		breq CMD
+		rjmp IDLoop				; Loop Until ID Sent
+CMD:
 		rcall sendCmd			; Call sendCmd routine
 
 		rjmp	MAIN
@@ -125,35 +131,35 @@ checkFwd:
 		brne checkBack		; If not go to next button
 
 		ldi r17, MovFwd		; Load Move Fowards Command into register
-		out UDR0, r17		; Output to transmitter
+		sts UDR1, r17		; Output to transmitter
 		rjmp end			; jump to end
 checkBack:
 		cpi mpr, (1<<1) 	; Check if Second Button Pressed
 		brne checkLeft		; If not go to next button
 		
 		ldi r17, MovBck		; Load Move Backward Command into register
-		out UDR0, r17		; Output to transmitter
+		sts UDR1, r17		; Output to transmitter
 		rjmp end			; jump to end
 checkLeft:
-		cpi mpr, (1<<2)		; Check if Third Button Pressed
+		cpi mpr, (1<<4)		; Check if Third Button Pressed
 		brne checkRight		; If not go to next button
 
 		ldi r17, TurnL		; Load Turn Left Command into register
-		out UDR0, r17		; Output to transmitter
+		sts UDR1, r17		; Output to transmitter
 		rjmp end			; jump to end
 checkRight:
-		cpi mpr, (1<<3)		; Check if Fourth Button Pressed
+		cpi mpr, (1<<5)		; Check if Fourth Button Pressed
 		brne checkHalt		; If not go to next button
 
 		ldi r17, TurnR		; Load Turn Right Command into register
-		out UDR0, r17		; Output to transmitter
+		sts UDR1, r17		; Output to transmitter
 		rjmp end			; jump to end
 checkHalt:
-		cpi mpr, (1<<4)		; Check if Fifth Button Pressed
+		cpi mpr, (1<<6)		; Check if Fifth Button Pressed
 		brne end			; If not go to end
 		
 		ldi r17, Halt		; Load Halt Command into register
-		out UDR0, r17		; Output to transmitter
+		sts UDR1, r17		; Output to transmitter
 		rjmp end			; jump to end
 end:
 
