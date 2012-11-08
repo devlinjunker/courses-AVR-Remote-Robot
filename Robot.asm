@@ -57,11 +57,11 @@
 .org	$0000					; Beginning of IVs
 		rjmp 	INIT			; Reset interrupt
 
-.org	$0002					; INT4 Interrupt Vector
+.org	$0002					; INT0 Interrupt Vector
 		rcall	HitRight		; Function to handle Hit Right
 		reti					; Return from interrupt
 
-.org 	$0004					; INT5 Interrupt Vector
+.org 	$0004					; INT1 Interrupt Vector
 		rcall 	HitLeft			; Function to handle Hit Lef
 		reti					; Return from interrupt
 
@@ -89,7 +89,7 @@ INIT:
 
 	; Initialize Port D for input
 	ldi mpr, $00
-	out DDRD, mpr			; Set Port E as Input
+	out DDRD, mpr			; Set Port D as Input
 	ldi mpr, (1<<WskrL)|(1<<WskrR)
 	out PORTD, mpr			; Set Input to Hi-Z
 	

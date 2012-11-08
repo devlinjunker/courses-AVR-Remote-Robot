@@ -19,14 +19,14 @@
 ;*	Internal Register Definitions and Constants
 ;***********************************************************
 .def	mpr = r16				; Multi-Purpose Register
-
+.def	cmdr = r17				; Command Register
 
 .equ	EngEnR = 4				; Right Engine Enable Bit
 .equ	EngEnL = 7				; Left Engine Enable Bit
 .equ	EngDirR = 5				; Right Engine Direction Bit
 .equ	EngDirL = 6				; Left Engine Direction Bit
 
-.equ	BotID =  0b00110011		;Unique XD ID (MSB = 0)
+.equ	BotID =  0b00110011		; Unique BotID = $33 (MSB = 0) 
 
 ; Use these commands between the remote and TekBot
 ; MSB = 1 thus:
@@ -68,44 +68,46 @@ INIT:
 	out PORTD, mpr	
 	
 	;USART1
-	;Enable transmitter
+	;Enable transmitter and reciever
 	ldi mpr, (1<<TXEN1)|(1<<RXEN1)
 	sts UCSR1B, mpr
+
 	;Set frame format: 8data, 2 stop bit
 	ldi mpr, (1<<USBS1)|(3<<UCSZ10)
 	sts UCSR1C,mpr
+
 	;Set baudrate at 2400bps
 	ldi mpr, 0b00001001
 	sts UBRR1H, mpr
 	ldi mpr, 0b01100000
 	sts UBRR1L, mpr
-	;Other
 
 
 ;-----------------------------------------------------------
 ; Main Program
 ;-----------------------------------------------------------
 MAIN:
-		lds mpr, UCSR1A			; Loop until all Transmissions finished
-		cpi mpr, (1<<UDRE1)
-		breq GO 
-		rjmp MAIN
+		; Wait for any transmissions to finish
+		lds mpr, UCSR1A	
+		sbrs mpr, UDRE1	
+		rjmp MAIN				; Loop if transmission not finished
 		
-GO:
-		in mpr, PIND			; Load PORT D Inputs
-		andi mpr, $F3			; Mask Out 5-7 Pins
-		cpi mpr, $00			
+		; Check Buttons for input
+		in cmdr, PIND			; Load PORT D Inputs
+		andi cmdr, $F3			; Mask Out Pins 2 & 3
+		cpi cmdr, $00			
 		breq MAIN				; If no input jump to beginning
 		
-		ldi r17, BotID			; Load BotID into register
-		sts UDR1, r17			; Output on Transmitter
+		; Send BotID
+		ldi mpr, BotID			; Load BotID into register
+		sts UDR1, mpr			; Output on Transmitter
 
-IDLoop:
-		lds r17, UCSR1A
-		cpi r17, (1<<UDRE1)
-		breq CMD
+IDLoop:	; Wait for transmission to finish
+		lds mpr, UCSR1A
+		sbrs mpr, UDRE1
 		rjmp IDLoop				; Loop Until ID Sent
-CMD:
+		
+		; Call sendCommand Function
 		rcall sendCmd			; Call sendCmd routine
 
 		rjmp	MAIN
@@ -116,53 +118,57 @@ CMD:
 ;-----------------------------------------------------------
 ; Func: sendCmd
 ; Desc: Determines which button was pressed and sends specified
-;		singal based on the button
+;		signal based on the button
 ; 		0th button = Forward
 ; 		1st button = Backward
-; 		2nd button = Turn Left
-; 		3rd button = Turn Right
-; 		4th button = Halt
+; 		4nd button = Turn Left
+; 		5rd button = Turn Right
+; 		6th button = Halt
 ; 		
 ;-----------------------------------------------------------
 sendCmd:
 
-checkFwd:
-		cpi mpr, (1<<0) 	; Check if First Button Pressed
+checkFwd:	; Check if Forward Button was pressed
+		cpi cmdr, (1<<0) 	; Check if First Button Pressed
 		brne checkBack		; If not go to next button
 
-		ldi r17, MovFwd		; Load Move Fowards Command into register
-		sts UDR1, r17		; Output to transmitter
+		ldi mpr, MovFwd		; Load Move Fowards Command into register
+		sts UDR1, mpr		; Output to transmitter
 		rjmp end			; jump to end
-checkBack:
-		cpi mpr, (1<<1) 	; Check if Second Button Pressed
+
+checkBack:	; Check if Back Button was pressed
+		cpi cmdr, (1<<1) 	; Check if Second Button Pressed
 		brne checkLeft		; If not go to next button
 		
-		ldi r17, MovBck		; Load Move Backward Command into register
-		sts UDR1, r17		; Output to transmitter
+		ldi mpr, MovBck		; Load Move Backward Command into register
+		sts UDR1, mpr		; Output to transmitter
 		rjmp end			; jump to end
-checkLeft:
-		cpi mpr, (1<<4)		; Check if Third Button Pressed
+
+checkLeft:	; Check if Left Button was pressed
+		cpi cmdr, (1<<4)	; Check if Third Button Pressed
 		brne checkRight		; If not go to next button
 
-		ldi r17, TurnL		; Load Turn Left Command into register
-		sts UDR1, r17		; Output to transmitter
+		ldi mpr, TurnL		; Load Turn Left Command into register
+		sts UDR1, mpr		; Output to transmitter
 		rjmp end			; jump to end
-checkRight:
-		cpi mpr, (1<<5)		; Check if Fourth Button Pressed
+
+checkRight:	; Check if Right Button was pressed
+		cpi cmdr, (1<<5)	; Check if Fourth Button Pressed
 		brne checkHalt		; If not go to next button
 
-		ldi r17, TurnR		; Load Turn Right Command into register
-		sts UDR1, r17		; Output to transmitter
+		ldi mpr, TurnR		; Load Turn Right Command into register
+		sts UDR1, mpr		; Output to transmitter
 		rjmp end			; jump to end
-checkHalt:
-		cpi mpr, (1<<6)		; Check if Fifth Button Pressed
+
+checkHalt:	; Check if Halt Button was pressed
+		cpi cmdr, (1<<6)	; Check if Fifth Button Pressed
 		brne end			; If not go to end
 		
-		ldi r17, Halt		; Load Halt Command into register
-		sts UDR1, r17		; Output to transmitter
+		ldi mpr, Halt		; Load Halt Command into register
+		sts UDR1, mpr		; Output to transmitter
 		rjmp end			; jump to end
-end:
 
+end:
 		ret					; Return from Function
 
 
