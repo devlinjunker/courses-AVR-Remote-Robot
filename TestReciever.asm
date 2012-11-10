@@ -9,7 +9,7 @@
 .def	olcnt = r19				; Outer Loop Counter
 
 ; Wait Time Constant
-.equ	WTime = 100
+.equ	WTime = 30
 
 .equ	BotID = 0b00110011		; Unique XD ID (MSB = 0)
 
@@ -53,13 +53,13 @@ INIT:
 	sts UCSR1B, mpr
 	
 	;Set frame format: 8data, 2 stop bit
-	ldi mpr, (1<<USBS1)|(3<<UCSZ01)
+	ldi mpr, (1<<USBS1)|(3<<UCSZ10)
 	sts UCSR1C,mpr
 	
 	;Set baudrate at 2400bps
-	ldi mpr, 0b00001001
+	ldi mpr, $01
 	sts UBRR1H, mpr
-	ldi mpr, 0b01100000
+	ldi mpr, $A0
 	sts UBRR1L, mpr
 		
 	sei		; Enable Interrupts

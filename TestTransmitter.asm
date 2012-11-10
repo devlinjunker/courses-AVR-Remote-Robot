@@ -48,7 +48,7 @@ INIT:
 	ldi mpr, LOW(RAMEND)
 	out SPL, mpr
 
-	; Initialize Port B for output
+	; Initialize Port B - Pin 0 for output
 	ldi mpr, $01
 	out DDRB, mpr			; Set Port B as Output
 	ldi mpr, $00
@@ -67,19 +67,13 @@ INIT:
 	
 	;Set frame format: 8data, 2 stop bit
 	ldi mpr, (1<<USBS1)|(3<<UCSZ10)
-	sts $9D,mpr ; UCSR1C
+	sts UCSR1C,mpr ; 
 
 	;Set baudrate at 2400bps
 	ldi mpr, $01
-	sts $98, mpr ; UBRR1H
+	sts UBRR1H, mpr 
 	ldi mpr, $A0
 	sts UBRR1L, mpr	
-
-	;Set baudrate at 2400bps
-	ldi mpr, $01
-	sts $98, mpr ; UBRR1H
-	ldi mpr, $A0
-	sts UBRR1L, mpr
 
 	; Initialize external interrupts
 	; Set the Interrupt Sense Control to Falling Edge detection
