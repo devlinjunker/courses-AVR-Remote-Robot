@@ -26,7 +26,7 @@
 .equ	EngDirR = 5				; Right Engine Direction Bit
 .equ	EngDirL = 6				; Left Engine Direction Bit
 
-.equ	BotID =  0b00110011		; Unique BotID = $33 (MSB = 0) 
+.equ	BotID =  0b10110011		; Unique BotID = $33 (MSB = 0) 
 
 ; Use these commands between the remote and TekBot
 ; MSB = 1 thus:
@@ -61,15 +61,22 @@ INIT:
 	ldi mpr, LOW(RAMEND)
 	out SPL, mpr
 
+	; Initialize Port B for output
+	ldi mpr, $FF
+	out DDRB, mpr			; Set Port B as Output
+	ldi mpr, $00
+	out PORTB, mpr			; Default Output set 0
+
 	; Initialize Port D for input
-	ldi mpr, $0C
+	ldi mpr, $00
 	out DDRD, mpr			; Set Port D as Input
 	ldi mpr, $F3
-	out PORTD, mpr	
+	out PORTD, mpr			; Set Input to Hi-Z
+	out PIND, mpr
 	
 	;USART1
-	;Enable transmitter and reciever
-	ldi mpr, (1<<TXEN1)|(1<<RXEN1)
+	;Enable transmitter
+	ldi mpr, (1<<TXEN1)
 	sts UCSR1B, mpr
 
 	;Set frame format: 8data, 2 stop bit
@@ -77,11 +84,11 @@ INIT:
 	sts UCSR1C,mpr
 
 	;Set baudrate at 2400bps
-	ldi mpr, 0b00001001
+	ldi mpr, $01
 	sts UBRR1H, mpr
-	ldi mpr, 0b01100000
+	ldi mpr, $A0
 	sts UBRR1L, mpr
-
+	
 
 ;-----------------------------------------------------------
 ; Main Program
@@ -94,18 +101,10 @@ MAIN:
 		
 		; Check Buttons for input
 		in cmdr, PIND			; Load PORT D Inputs
+		com cmdr
 		andi cmdr, $F3			; Mask Out Pins 2 & 3
 		cpi cmdr, $00			
 		breq MAIN				; If no input jump to beginning
-		
-		; Send BotID
-		ldi mpr, BotID			; Load BotID into register
-		sts UDR1, mpr			; Output on Transmitter
-
-IDLoop:	; Wait for transmission to finish
-		lds mpr, UCSR1A
-		sbrs mpr, UDRE1
-		rjmp IDLoop				; Loop Until ID Sent
 		
 		; Call sendCommand Function
 		rcall sendCmd			; Call sendCmd routine
@@ -127,6 +126,19 @@ IDLoop:	; Wait for transmission to finish
 ; 		
 ;-----------------------------------------------------------
 sendCmd:
+
+		; Send BotID
+		ldi mpr, BotID			; Load BotID into register
+		sts UDR1, mpr			; Output on Transmitter
+		out PORTB, mpr		
+
+IDLoop:	; Wait for transmission to finish
+		lds mpr, UCSR1A
+		sbrs mpr, UDRE1
+		rjmp IDLoop				; Loop Until ID Sent
+
+		ldi mpr, $00
+		out PORTB, mpr
 
 checkFwd:	; Check if Forward Button was pressed
 		cpi cmdr, (1<<0) 	; Check if First Button Pressed
@@ -169,6 +181,7 @@ checkHalt:	; Check if Halt Button was pressed
 		rjmp end			; jump to end
 
 end:
+		
 		ret					; Return from Function
 
 

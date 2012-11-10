@@ -67,7 +67,7 @@ INIT:
 	
 	;Set frame format: 8data, 2 stop bit
 	ldi mpr, (1<<USBS1)|(3<<UCSZ10)
-	sts UCSR1C,mpr ; 
+	sts UCSR1C,mpr 
 
 	;Set baudrate at 2400bps
 	ldi mpr, $01

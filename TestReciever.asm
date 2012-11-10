@@ -84,10 +84,10 @@ Recieve:
 	lds mpr, UDR1
 	out PORTB, mpr
 
-	rcall Wait
+	;rcall Wait
 
-	ldi mpr, $00
-	out PORTB, mpr
+	;ldi mpr, $00
+	;out PORTB, mpr
 
 	ret
 
