@@ -19,23 +19,23 @@
   <FILE>C:\Users\Devlin\Dropbox\CS Stuff\ECE 375\AVR4\Lab6\Lab6.map</FILE>
  </OUTPUT_FILES>
  <LABELS>
-  <INIT><FILE>C:\Users\Devlin\Dropbox\CS Stuff\ECE 375\AVR4\Lab6\Robot.asm</FILE><LINE>77</LINE></INIT>
-  <HitRight><FILE>C:\Users\Devlin\Dropbox\CS Stuff\ECE 375\AVR4\Lab6\Robot.asm</FILE><LINE>174</LINE></HitRight>
-  <HitLeft><FILE>C:\Users\Devlin\Dropbox\CS Stuff\ECE 375\AVR4\Lab6\Robot.asm</FILE><LINE>207</LINE></HitLeft>
-  <RecieveID><FILE>C:\Users\Devlin\Dropbox\CS Stuff\ECE 375\AVR4\Lab6\Robot.asm</FILE><LINE>143</LINE></RecieveID>
-  <MAIN><FILE>C:\Users\Devlin\Dropbox\CS Stuff\ECE 375\AVR4\Lab6\Robot.asm</FILE><LINE>127</LINE></MAIN>
-  <RcvSkip><FILE>C:\Users\Devlin\Dropbox\CS Stuff\ECE 375\AVR4\Lab6\Robot.asm</FILE><LINE>161</LINE></RcvSkip>
-  <CmdLoop><FILE>C:\Users\Devlin\Dropbox\CS Stuff\ECE 375\AVR4\Lab6\Robot.asm</FILE><LINE>153</LINE></CmdLoop>
-  <Recieve><FILE>C:\Users\Devlin\Dropbox\CS Stuff\ECE 375\AVR4\Lab6\Robot.asm</FILE><LINE>158</LINE></Recieve>
-  <RecieveCmd><FILE>C:\Users\Devlin\Dropbox\CS Stuff\ECE 375\AVR4\Lab6\Robot.asm</FILE><LINE>267</LINE></RecieveCmd>
-  <Wait><FILE>C:\Users\Devlin\Dropbox\CS Stuff\ECE 375\AVR4\Lab6\Robot.asm</FILE><LINE>238</LINE></Wait>
-  <Loop><FILE>C:\Users\Devlin\Dropbox\CS Stuff\ECE 375\AVR4\Lab6\Robot.asm</FILE><LINE>246</LINE></Loop>
-  <OLoop><FILE>C:\Users\Devlin\Dropbox\CS Stuff\ECE 375\AVR4\Lab6\Robot.asm</FILE><LINE>247</LINE></OLoop>
-  <ILoop><FILE>C:\Users\Devlin\Dropbox\CS Stuff\ECE 375\AVR4\Lab6\Robot.asm</FILE><LINE>248</LINE></ILoop>
-  <checkBack><FILE>C:\Users\Devlin\Dropbox\CS Stuff\ECE 375\AVR4\Lab6\Robot.asm</FILE><LINE>283</LINE></checkBack>
-  <exit><FILE>C:\Users\Devlin\Dropbox\CS Stuff\ECE 375\AVR4\Lab6\Robot.asm</FILE><LINE>315</LINE></exit>
-  <checkLeft><FILE>C:\Users\Devlin\Dropbox\CS Stuff\ECE 375\AVR4\Lab6\Robot.asm</FILE><LINE>291</LINE></checkLeft>
-  <checkRight><FILE>C:\Users\Devlin\Dropbox\CS Stuff\ECE 375\AVR4\Lab6\Robot.asm</FILE><LINE>299</LINE></checkRight>
-  <checkHalt><FILE>C:\Users\Devlin\Dropbox\CS Stuff\ECE 375\AVR4\Lab6\Robot.asm</FILE><LINE>307</LINE></checkHalt>
+  <INIT><FILE>C:\Users\Devlin\Dropbox\CS Stuff\ECE 375\AVR4\Lab6\Robot.asm</FILE><LINE>78</LINE></INIT>
+  <HitRight><FILE>C:\Users\Devlin\Dropbox\CS Stuff\ECE 375\AVR4\Lab6\Robot.asm</FILE><LINE>182</LINE></HitRight>
+  <HitLeft><FILE>C:\Users\Devlin\Dropbox\CS Stuff\ECE 375\AVR4\Lab6\Robot.asm</FILE><LINE>215</LINE></HitLeft>
+  <RecieveID><FILE>C:\Users\Devlin\Dropbox\CS Stuff\ECE 375\AVR4\Lab6\Robot.asm</FILE><LINE>147</LINE></RecieveID>
+  <MAIN><FILE>C:\Users\Devlin\Dropbox\CS Stuff\ECE 375\AVR4\Lab6\Robot.asm</FILE><LINE>134</LINE></MAIN>
+  <RcvSkip><FILE>C:\Users\Devlin\Dropbox\CS Stuff\ECE 375\AVR4\Lab6\Robot.asm</FILE><LINE>168</LINE></RcvSkip>
+  <CmdLoop><FILE>C:\Users\Devlin\Dropbox\CS Stuff\ECE 375\AVR4\Lab6\Robot.asm</FILE><LINE>159</LINE></CmdLoop>
+  <Recieve><FILE>C:\Users\Devlin\Dropbox\CS Stuff\ECE 375\AVR4\Lab6\Robot.asm</FILE><LINE>165</LINE></Recieve>
+  <RecieveCmd><FILE>C:\Users\Devlin\Dropbox\CS Stuff\ECE 375\AVR4\Lab6\Robot.asm</FILE><LINE>275</LINE></RecieveCmd>
+  <Wait><FILE>C:\Users\Devlin\Dropbox\CS Stuff\ECE 375\AVR4\Lab6\Robot.asm</FILE><LINE>246</LINE></Wait>
+  <Loop><FILE>C:\Users\Devlin\Dropbox\CS Stuff\ECE 375\AVR4\Lab6\Robot.asm</FILE><LINE>254</LINE></Loop>
+  <OLoop><FILE>C:\Users\Devlin\Dropbox\CS Stuff\ECE 375\AVR4\Lab6\Robot.asm</FILE><LINE>255</LINE></OLoop>
+  <ILoop><FILE>C:\Users\Devlin\Dropbox\CS Stuff\ECE 375\AVR4\Lab6\Robot.asm</FILE><LINE>256</LINE></ILoop>
+  <checkBack><FILE>C:\Users\Devlin\Dropbox\CS Stuff\ECE 375\AVR4\Lab6\Robot.asm</FILE><LINE>291</LINE></checkBack>
+  <exit><FILE>C:\Users\Devlin\Dropbox\CS Stuff\ECE 375\AVR4\Lab6\Robot.asm</FILE><LINE>323</LINE></exit>
+  <checkLeft><FILE>C:\Users\Devlin\Dropbox\CS Stuff\ECE 375\AVR4\Lab6\Robot.asm</FILE><LINE>299</LINE></checkLeft>
+  <checkRight><FILE>C:\Users\Devlin\Dropbox\CS Stuff\ECE 375\AVR4\Lab6\Robot.asm</FILE><LINE>307</LINE></checkRight>
+  <checkHalt><FILE>C:\Users\Devlin\Dropbox\CS Stuff\ECE 375\AVR4\Lab6\Robot.asm</FILE><LINE>315</LINE></checkHalt>
  </LABELS>
 </ASSEMBLER_INFO>

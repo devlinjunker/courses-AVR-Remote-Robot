@@ -26,7 +26,7 @@
 .equ	EngDirR = 5				; Right Engine Direction Bit
 .equ	EngDirL = 6				; Left Engine Direction Bit
 
-.equ	BotID =  0b10110011		; Unique BotID = $33 (MSB = 0) 
+.equ	BotID =  0b00110011		; Unique BotID = $33 (MSB = 0) 
 
 ; Use these commands between the remote and TekBot
 ; MSB = 1 thus:
