@@ -13,10 +13,9 @@
 
 .equ	BotID = 0b00110011		; Unique XD ID (MSB = 0)
 
-.equ	Signal = 0b01010011		
+.equ	Signal = 0b10010011		
 
-.equ 	LightOn = 0x80			
-.equ 	LightOff = 0x00
+.equ 	LightsOff = 0x00
 
 ;***********************************************************
 ;*	Start of Code Segment
@@ -33,7 +32,7 @@
 		rcall	Transmit		; Function to Transmit when Button Pressed
 		reti					; Return from interrupt
 
-.org 	$0024
+.org 	$003C					; USART1 Reciever Interrupt
 		rcall 	Recieve
 		reti
 
@@ -50,7 +49,7 @@ INIT:
 	out SPL, mpr
 
 	; Initialize Port B for output
-	ldi mpr, $FF
+	ldi mpr, $01
 	out DDRB, mpr			; Set Port B as Output
 	ldi mpr, $00
 	out PORTB, mpr			; Default Output set 0
@@ -60,26 +59,36 @@ INIT:
 	out DDRD, mpr			; Set Port D as Input
 	ldi mpr, $01
 	out PORTD, mpr			; Set Input to Hi-Z
-
+	
 	;USART1
-	;Enable receiver and Enable receive interrupts
+	;Enable transmitter, receiver, and Enable receive interrupts
 	ldi mpr, (1<<TXEN1)|(1<<RXEN1)|(1<<RXCIE1)
 	sts UCSR1B, mpr
 	
 	;Set frame format: 8data, 2 stop bit
-	ldi mpr, (1<<USBS1)|(3<<UCSZ01)
-	sts UCSR1C,mpr
-	
+	ldi mpr, (1<<USBS1)|(3<<UCSZ10)
+	sts $9D,mpr ; UCSR1C
+
 	;Set baudrate at 2400bps
-	ldi mpr, 0b00001001
-	sts UBRR1H, mpr
-	ldi mpr, 0b01100000
+	ldi mpr, $01
+	sts $98, mpr ; UBRR1H
+	ldi mpr, $A0
+	sts UBRR1L, mpr	
+
+	;Set baudrate at 2400bps
+	ldi mpr, $01
+	sts $98, mpr ; UBRR1H
+	ldi mpr, $A0
 	sts UBRR1L, mpr
-	
+
 	; Initialize external interrupts
 	; Set the Interrupt Sense Control to Falling Edge detection
-	ldi mpr, (1<<ISC01)|(0<<ISC00)
+	ldi mpr, $02
 	sts EICRA, mpr
+
+	; Set the External Interrupt Mask
+	ldi mpr, $01
+	out EIMSK, mpr
 
 	sei		; Enable Interrupts
 
@@ -113,19 +122,22 @@ Transmit:
 
 Recieve:	
 	
-	ldi ilcnt, 5	
+	lds mpr, UDR1
+		
+	ldi olcnt, 5	
+	
+BlinkLoop:
+	ldi mpr, $01
+	out PORTB, mpr
+	rcall Wait
+	
 
-Loop:
-	ldi mpr, LightOn
+	ldi mpr, LightsOff
 	out PORTB, mpr
 	rcall Wait
 	
-	ldi mpr, LightOff
-	out PORTB, mpr
-	rcall Wait
-	
-	dec ilcnt
-	brne Loop
+	dec olcnt
+	brne BlinkLoop
 
 	ret
 

@@ -65,7 +65,7 @@
 		rcall 	HitLeft			; Function to handle Hit Lef
 		reti					; Return from interrupt
 
-.org 	$0024
+.org 	$003C					; USART1 Reciever Interrupt
 		rcall 	RecieveID
 		reti
 
@@ -271,44 +271,44 @@ RecieveCmd:
 		push mpr
 		
 		lds mpr, UDR1 	; Get command from buffer
-		LSL mpr			; Shift out MSB (1 to represent signal)
-		cpi mpr, MovFwd
-		brne checkBack
+		LSL mpr			; Left Shift out MSB (1 to represent signal)
 
-checkFwd:		
-		ldi mpr, MovFwd
-		out PORTB, mpr
-		rjmp exit
+		cpi mpr, MovFwd	; Compare against MovFwd Command 
+		brne checkBack	; If not MovFwd check Back
+	
+		ldi mpr, MovFwd	; If equal, load Command into mpr
+		out PORTB, mpr	
+		rjmp exit		
 		 
 checkBack:
-		cpi mpr, MovBck
-		brne checkLeft
+		cpi mpr, MovBck	; Compare against MovBck Command 
+		brne checkLeft	; If not MovBck check turn left
 		
-		ldi mpr, MovBck
+		ldi mpr, MovBck	; If equal, load Command into mpr
 		out PORTB, mpr
 		rjmp exit		
 
 checkLeft:
-		cpi mpr, TurnL
-		brne checkRight
+		cpi mpr, TurnL	; Compare against TurnL Command 
+		brne checkRight	; If not TurnL check turn right
 
-		ldi mpr, TurnL
+		ldi mpr, TurnL	; If equal, load Command into mpr
 		out PORTB, mpr
 		rjmp exit
 
 checkRight:
-		cpi mpr, TurnR
-		brne checkHalt
+		cpi mpr, TurnR	; Compare against TurnR Command 
+		brne checkHalt	; If not TurnR check Halt
 
-		ldi mpr, TurnR
+		ldi mpr, TurnR	; If equal, load Command into mpr
 		out PORTB, mpr
 		rjmp exit
 
 checkHalt:
-		cpi mpr, Halt
-		brne exit 
+		cpi mpr, Halt	; Compare against Halt Command 
+		brne exit 		; If not Halt check Exit
 
-		ldi mpr, Halt
+		ldi mpr, Halt	; If equal, load Command into mpr
 		out PORTB, mpr
 		rjmp exit
 

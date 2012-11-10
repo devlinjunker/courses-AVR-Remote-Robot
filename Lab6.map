@@ -1,5 +1,5 @@
 
-AVRASM ver. 2.1.42  C:\Users\Devlin\Dropbox\CS Stuff\ECE 375\AVR4\Lab6\TestReciever.asm Wed Nov 07 22:46:55 2012
+AVRASM ver. 2.1.42  C:\Users\Devlin\Dropbox\CS Stuff\ECE 375\AVR4\Lab6\TestReciever.asm Sat Nov 10 09:59:09 2012
 
 
 EQU  SIGNATURE_000 0000001e
@@ -873,12 +873,10 @@ DEF  ilcnt        r18
 DEF  olcnt        r19
 EQU  WTime        00000064
 EQU  BotID        00000033
-EQU  LightOn      00000001
-EQU  LightOff     00000002
 CSEG INIT         00000046
-CSEG RecieveID    00000061
-CSEG MAIN         00000060
-CSEG Wait         00000068
-CSEG Loop         0000006c
-CSEG OLoop        0000006d
-CSEG ILoop        0000006e
+CSEG Recieve      0000005c
+CSEG MAIN         0000005b
+CSEG Wait         00000063
+CSEG Loop         00000067
+CSEG OLoop        00000068
+CSEG ILoop        00000069

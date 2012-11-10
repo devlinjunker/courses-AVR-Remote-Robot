@@ -25,7 +25,7 @@
 .org	$0000					; Beginning of IVs
 		rjmp 	INIT			; Reset interrupt
 
-.org 	$0024
+.org 	$003C					; USART1 Reciever Interrupt
 		rcall 	Recieve
 		reti
 
