@@ -1,15 +1,25 @@
 ;***********************************************************
 ;*
-;*	Enter Name of file here
+;* 	ECE 375 Lab 6 - Fall 2012
+;*	Robot.asm
 ;*
-;*	Enter the description of the program here
+;*	This is the robot for Lab 6 of ECE 375. The robot waits
+;* 	until it receives a signal, then checks to see if it is 
+;*	be the Freezing command from another robot. If it is the 
+;*	Freezing command, the Robot will halt for five seconds 
+;*	then resume forward motion. After being frozen three times, 
+;*	the Robot will be permanently frozen until the Reset
+;*	Button is pressed. If it is not the freezing command, the 
+;*	robot checks to see if it is a corresponding BotID. If it 
+;*	is, it waits for the next command it receives and performs 
+;*	the corresponding action. 
 ;*
-;*	This is the RECEIVE skeleton file for Lab 6 of ECE 375
+;*	The robot also has bumpbot capabilities.
 ;*
 ;***********************************************************
 ;*
-;*	 Author: Enter your name
-;*	   Date: Enter Date
+;*	 Author: Devlin Junker
+;*	   Date: November 11th, 2012
 ;*
 ;***********************************************************
 
@@ -177,8 +187,8 @@ RecieveID:
 		cpi sigr, Freezing
 		brne End		; if not, return to main
 		
-		call Freeze	; else call Freeze Routine
-		rjmp End		; return to main
+		call Freeze		; else call Freeze Routine
+		rjmp End		; then return to main
 
 CheckID:	; Check if our BotID
 		cpi sigr, BotID	

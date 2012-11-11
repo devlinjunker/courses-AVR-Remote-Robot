@@ -1,15 +1,17 @@
 ;***********************************************************
 ;*
-;*	Enter Name of file here
+;* 	ECE 375 Lab 6 - Fall 2012
+;*	Remote.asm
 ;*
-;*	Enter the description of the program here
+;*	This is the remote for Lab 6 of ECE 375. The Remote sends 
+;* 	one of 6 commands to a Robot: Move Forward, Move Backward, 
+;*	Turn Right, Turn Left, Halt and Send Freeze. 
 ;*
-;*	This is the TRANSMIT skeleton file for Lab 6 of ECE 375
 ;*
 ;***********************************************************
 ;*
-;*	 Author: Enter your name
-;*	   Date: Enter Date
+;*	 Author: Devlin Junker
+;*	   Date: November 11th 2012
 ;*
 ;***********************************************************
 
@@ -55,39 +57,39 @@
 ; Program Initialization
 ;-----------------------------------------------------------
 INIT:
-	;Stack Pointer 
-	ldi mpr, HIGH(RAMEND)
-	out SPH, mpr
-	ldi mpr, LOW(RAMEND)
-	out SPL, mpr
+		;Stack Pointer 
+		ldi mpr, HIGH(RAMEND)
+		out SPH, mpr
+		ldi mpr, LOW(RAMEND)
+		out SPL, mpr
 
-	; Initialize Port B for output
-	ldi mpr, $FF
-	out DDRB, mpr			; Set Port B as Output
-	ldi mpr, $00
-	out PORTB, mpr			; Default Output set 0
+		; Initialize Port B for output
+		ldi mpr, $FF
+		out DDRB, mpr		; Set Port B as Output
+		ldi mpr, $00
+		out PORTB, mpr		; Default Output set 0
 
 	; Initialize Port D for input
-	ldi mpr, $00
-	out DDRD, mpr			; Set Port D as Input
-	ldi mpr, $F3
-	out PORTD, mpr			; Set Input to Hi-Z
-	out PIND, mpr
+		ldi mpr, $00
+		out DDRD, mpr		; Set Port D as Input
+		ldi mpr, $F3
+		out PORTD, mpr		; Set Input to Hi-Z
+		out PIND, mpr
 	
-	;USART1
-	;Enable transmitter
-	ldi mpr, (1<<TXEN1)
-	sts UCSR1B, mpr
+		;USART1
+		;Enable transmitter
+		ldi mpr, (1<<TXEN1)
+		sts UCSR1B, mpr
 
-	;Set frame format: 8data, 2 stop bit
-	ldi mpr, (1<<USBS1)|(3<<UCSZ10)
-	sts UCSR1C,mpr
+		;Set frame format: 8data, 2 stop bit
+		ldi mpr, (1<<USBS1)|(3<<UCSZ10)
+		sts UCSR1C,mpr
 
-	;Set baudrate at 2400bps
-	ldi mpr, $01
-	sts UBRR1H, mpr
-	ldi mpr, $A0
-	sts UBRR1L, mpr
+		;Set baudrate at 2400bps
+		ldi mpr, $01
+		sts UBRR1H, mpr
+		ldi mpr, $A0
+		sts UBRR1L, mpr
 	
 
 ;-----------------------------------------------------------
@@ -97,17 +99,17 @@ MAIN:
 		; Wait for any transmissions to finish
 		lds mpr, UCSR1A	
 		sbrs mpr, UDRE1	
-		rjmp MAIN				; Loop if transmission not finished
+		rjmp MAIN			; Loop if transmission not finished
 		
 		; Check Buttons for input
-		in cmdr, PIND			; Load PORT D Inputs
+		in cmdr, PIND		; Load PORT D Inputs
 		com cmdr
-		andi cmdr, $F3			; Mask Out Pins 2 & 3
-		cpi cmdr, $00			
-		breq MAIN				; If no input jump to beginning
+		andi cmdr, $F3		; Mask Out Pins 2 & 3
+		cpi cmdr, $00		
+		breq MAIN			; If no input jump to beginning
 		
 		; Call sendCommand Function
-		rcall sendCmd			; Call sendCmd routine
+		rcall SendCmd		; Call sendCmd routine
 
 		rjmp	MAIN
 
@@ -126,7 +128,7 @@ MAIN:
 ; 		7th button = Freeze
 ; 		
 ;-----------------------------------------------------------
-sendCmd:
+SendCmd:
 
 		; Send BotID
 		ldi mpr, BotID		; Load BotID into register

@@ -1,5 +1,5 @@
 
-AVRASM ver. 2.1.42  C:\Users\Devlin\Dropbox\CS Stuff\ECE 375\AVR4\Lab6\Robot.asm Sun Nov 11 13:01:50 2012
+AVRASM ver. 2.1.42  C:\Users\Devlin\Dropbox\CS Stuff\ECE 375\AVR4\Lab6\Robot.asm Sun Nov 11 14:05:25 2012
 
 
 EQU  SIGNATURE_000 0000001e
@@ -890,28 +890,28 @@ EQU  Halt         00000090
 EQU  Freez        000000f0
 EQU  Freezing     000000d5
 CSEG INIT         00000046
-CSEG HitRight     00000084
-CSEG HitLeft      00000095
-CSEG Freeze       000000f2
-CSEG RecieveID    0000006b
-CSEG MAIN         0000006a
-CSEG CheckID      00000078
-CSEG End          0000007f
-CSEG CmdLoop      0000007a
-CSEG RecieveCmd   000000b6
-CSEG Wait         000000a6
-CSEG Loop         000000aa
-CSEG OLoop        000000ab
-CSEG ILoop        000000ac
-CSEG checkBack    000000c1
-CSEG exit         000000da
-CSEG checkLeft    000000c6
-CSEG checkRight   000000cb
-CSEG checkHalt    000000d0
-CSEG checkFreeze  000000d5
-CSEG sendFreeze   000000de
-CSEG transmitLoop 000000e7
-CSEG FreezeLoop   000000f8
-CSEG Return       000000fe
-CSEG Frozen       00000104
-CSEG FrozenLoop   00000107
+CSEG HitRight     00000083
+CSEG HitLeft      00000094
+CSEG RecieveID    0000006a
+CSEG MAIN         00000069
+CSEG CheckID      00000077
+CSEG End          0000007e
+CSEG Freeze       000000f1
+CSEG CmdLoop      00000079
+CSEG RecieveCmd   000000b5
+CSEG Wait         000000a5
+CSEG Loop         000000a9
+CSEG OLoop        000000aa
+CSEG ILoop        000000ab
+CSEG checkBack    000000c0
+CSEG exit         000000d9
+CSEG checkLeft    000000c5
+CSEG checkRight   000000ca
+CSEG checkHalt    000000cf
+CSEG checkFreeze  000000d4
+CSEG sendFreeze   000000dd
+CSEG transmitLoop 000000e6
+CSEG FreezeLoop   000000f7
+CSEG Return       000000fd
+CSEG Frozen       00000103
+CSEG FrozenLoop   00000106
