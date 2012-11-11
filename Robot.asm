@@ -72,6 +72,9 @@
 		rcall 	HitLeft			; Function to handle Hit Lef
 		reti					; Return from interrupt
 
+;.org 	$0006					; INT2 Interrupt Vector
+		;call Freeze			; FOR TESTING FREEZE
+
 .org 	$003C					; USART1 Reciever Interrupt
 		rcall 	RecieveID
 		reti
@@ -98,6 +101,7 @@ INIT:
 	ldi mpr, $00
 	out DDRD, mpr			; Set Port D as Input
 	ldi mpr, (1<<WskrL)|(1<<WskrR)|(1<<ResetBtn)
+	;ldi mpr, (1<<WskrL)|(1<<WskrR)|(1<<ResetBtn)|(1<<2) ; FOR TESTING FREEZE
 	out PORTD, mpr			; Set Input to Hi-Z
 	
 	
@@ -120,17 +124,19 @@ INIT:
 	; Initialize external interrupts
 	; Set the Interrupt Sense Control to Falling Edge detection
 	ldi mpr, (1<<ISC01)|(0<<ISC00)|(1<<ISC11)|(0<<ISC10)
+	;ldi mpr, (1<<ISC01)|(0<<ISC00)|(1<<ISC11)|(0<<ISC10)|(1<<ISC21)|(0<<ISC20) ; FOR TESTING FREEZE
 	sts EICRA, mpr
-	ldi mpr, $00
+	ldi mpr, $00	
 	out EICRB, mpr
 
 	; Set the External Interrupt Mask
 	ldi mpr, (1<<INT0)|(1<<INT1)
+	;ldi mpr, (1<<INT0)|(1<<INT1)|(1<<INT2) ; FOR TESTING FREEZE
 	out EIMSK, mpr
 
 	; Enable Interrupts
-	sei
-	
+	sei	
+
 	; Set Freeze Counter
 	ldi frzcnt, 3		
 	
@@ -400,7 +406,7 @@ transmitLoop:	; Wait for any transmissions to finish
 ;-----------------------------------------------------------
 ; Func: Freeze
 ; Desc: Freezes the robot for 5 seconds, then restarts, if it
-; 		has been frozen 5 times, calls the frozen routine that 
+; 		has been frozen 3 times, calls the frozen routine that 
 ; 		freezes the robot until it is reset
 ;-----------------------------------------------------------
 Freeze:	
@@ -433,7 +439,8 @@ Return:	; Begin Moving Forward again
 		pop mpr
 		out SREG, mpr
 		pop mpr
-		ret		; End a function with RET
+		;ret	; End a function with RET
+		reti	; FOR TESTING FREEZE
 
 ;-----------------------------------------------------------
 ; Func: Frozen
