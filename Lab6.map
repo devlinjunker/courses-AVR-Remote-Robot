@@ -1,5 +1,5 @@
 
-AVRASM ver. 2.1.42  C:\Users\Devlin\Dropbox\CS Stuff\ECE 375\AVR4\Lab6\Robot.asm Sun Nov 11 14:05:25 2012
+AVRASM ver. 2.1.42  C:\Users\Devlin\Dropbox\CS Stuff\ECE 375\AVR4\Lab6\Robot.asm Sun Nov 11 14:47:05 2012
 
 
 EQU  SIGNATURE_000 0000001e
@@ -892,26 +892,22 @@ EQU  Freezing     000000d5
 CSEG INIT         00000046
 CSEG HitRight     00000083
 CSEG HitLeft      00000094
-CSEG RecieveID    0000006a
+CSEG ReceiveID    0000006a
 CSEG MAIN         00000069
 CSEG CheckID      00000077
 CSEG End          0000007e
-CSEG Freeze       000000f1
+CSEG Freeze       000000d8
 CSEG CmdLoop      00000079
-CSEG RecieveCmd   000000b5
+CSEG ReceiveCmd   000000b5
 CSEG Wait         000000a5
 CSEG Loop         000000a9
 CSEG OLoop        000000aa
 CSEG ILoop        000000ab
-CSEG checkBack    000000c0
-CSEG exit         000000d9
-CSEG checkLeft    000000c5
-CSEG checkRight   000000ca
-CSEG checkHalt    000000cf
-CSEG checkFreeze  000000d4
-CSEG sendFreeze   000000dd
-CSEG transmitLoop 000000e6
-CSEG FreezeLoop   000000f7
-CSEG Return       000000fd
-CSEG Frozen       00000103
-CSEG FrozenLoop   00000106
+CSEG motorCmd     000000bf
+CSEG SendFreeze   000000c4
+CSEG exit         000000c0
+CSEG transmitLoop 000000cd
+CSEG FreezeLoop   000000de
+CSEG Return       000000e4
+CSEG Frozen       000000ea
+CSEG FrozenLoop   000000ed
