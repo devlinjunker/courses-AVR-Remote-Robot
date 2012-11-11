@@ -23,6 +23,7 @@
 .def	waitcnt = r18			; Wait Loop Counter
 .def 	ilcnt = r19 			; Inner Loop Counter
 .def	olcnt = r20				; Outer Loop Counter
+.def	frzcnt = r21			; Number of Freezes Counter
 
 ; Wait Time Constant
 .equ	WTime = 100
@@ -30,6 +31,9 @@
 ; Constants for interactions
 .equ	WskrR = 0				; Right Whisker Input Bit
 .equ	WskrL = 1				; Left Whisker Input Bit
+
+.equ 	ResetBtn = 7			; Reset Button Input Bit
+
 .equ	EngEnR = 4				; Right Engine Enable Bit
 .equ	EngEnL = 7				; Left Engine Enable Bit
 .equ	EngDirR = 5				; Right Engine Direction Bit
@@ -47,7 +51,7 @@
 .equ	TurnL =   (1<<EngDirR)				;0b00100000 Turn Left Command
 .equ	Halt =    (1<<EngEnR|1<<EngEnL)		;0b10010000 Halt Command
 .equ	Freez =   $F0						;0b11110000 Freeze Command
-.equ	Freezing =   $55					;0b11110000 Freeze Command
+.equ	Freezing =   $D5					;0b11010101 Freeze Command
 
 ;***********************************************************
 ;*	Start of Code Segment
@@ -93,7 +97,7 @@ INIT:
 	; Initialize Port D for input
 	ldi mpr, $00
 	out DDRD, mpr			; Set Port D as Input
-	ldi mpr, (1<<WskrL)|(1<<WskrR)
+	ldi mpr, (1<<WskrL)|(1<<WskrR)|(1<<ResetBtn)
 	out PORTD, mpr			; Set Input to Hi-Z
 	
 	
@@ -112,6 +116,7 @@ INIT:
 	ldi mpr, $A0
 	sts UBRR1L, mpr
 
+
 	; Initialize external interrupts
 	; Set the Interrupt Sense Control to Falling Edge detection
 	ldi mpr, (1<<ISC01)|(0<<ISC00)|(1<<ISC11)|(0<<ISC10)
@@ -125,6 +130,9 @@ INIT:
 
 	; Enable Interrupts
 	sei
+	
+	; Set Freeze Counter
+	ldi frzcnt, 3		
 	
 	; Send command to Move Robot Forward 
 	ldi mpr, MovFwd
@@ -155,19 +163,30 @@ RecieveID:
 		
 		lds sigr, UDR1 	; Get signal from buffer
 		
-		cpi sigr, BotID	; Compare against BotID
-		brne RcvSkip	; If not equal, return to main
+		; Check if is a BotId
+		sbrs mpr, 7		;(If 7th bit is set, it is a BotID)
+		rjmp CheckID	;If it is, jump to checkID	
+						
+						;if it's not, check if Robot should freeze
+		cpi sigr, Freezing
+		brne End		; if not, return to main
+		
+		call Freeze	; else call Freeze Routine
+		rjmp End		; return to main
 
-CmdLoop:
+CheckID:	; Check if our BotID
+		cpi sigr, BotID	
+		brne End		; If not, return to main
+
+CmdLoop:	; Wait to recieve Command
 		lds mpr, UCSR1A
-		andi mpr, (1<<RXC1)
-		cpi mpr, (1<<RXC1)
-		breq Recieve		; If Equal, poll for Recieve Complete
-		rjmp CmdLoop		; If Not Complete: Loop
-Recieve:		
-		rcall RecieveCmd	; If Complete: Jump to RecieveCmd
+		sbrs mpr, RXC1		; Check if Recieve Complete
+		rjmp CmdLoop		; If not, wait for Recieve Complete
 
-RcvSkip: 
+		; If Complete: Jump to RecieveCmd
+		rcall RecieveCmd	
+
+End: 
 		; Restore variable by popping them from the stack in reverse order
 		pop mpr
 		out SREG, mpr
@@ -191,13 +210,11 @@ HitRight:
 		; Move Backwards for 1 Second
 		ldi mpr, MovBck
 		out PORTB, mpr
-		ldi waitcnt, WTime
 		rcall Wait
 		
 		; Turn Left for 1 Second
 		ldi mpr, TurnL
 		out PORTB, mpr
-		ldi waitcnt, WTime
 		rcall Wait
 		
 		; Begin Moving Forward
@@ -228,13 +245,11 @@ HitLeft:
 		; Move Backwards for 1 Second
 		ldi mpr, MovBck
 		out PORTB, mpr
-		ldi waitcnt, WTime
 		rcall Wait
 		
 		; Turn Right for 1 Second
 		ldi mpr, TurnR
 		out PORTB, mpr
-		ldi waitcnt, WTime
 		rcall Wait
 
 		; Begin Moving Forward
@@ -250,7 +265,7 @@ HitLeft:
 
 ;-----------------------------------------------------------
 ; Func: Wait
-; Desc: Wait loop that will wait for waitcnt*(~10ms).
+; Desc: Wait loop that will wait for WTime*(~10ms)
 ;		beginning of your functions
 ;-----------------------------------------------------------
 Wait:	
@@ -258,7 +273,7 @@ Wait:
 		push waitcnt
 		push ilcnt
 		push olcnt
-		
+
 		ldi waitcnt, WTime
 
 Loop:	ldi olcnt, 224
@@ -374,11 +389,77 @@ transmitLoop:	; Wait for any transmissions to finish
 		;Enable reciever and disable transmitter
 		ldi mpr, (1<<RXEN1)|(1<<RXCIE1)
 		sts UCSR1B, mpr	
-
+	
+		; Restore variable by popping them from the stack in reverse order
 		pop mpr
 		out SREG, mpr
 		pop mpr
 		ret		; End a function with RET
+
+
+;-----------------------------------------------------------
+; Func: Freeze
+; Desc: Freezes the robot for 5 seconds, then restarts, if it
+; 		has been frozen 5 times, calls the frozen routine that 
+; 		freezes the robot until it is reset
+;-----------------------------------------------------------
+Freeze:	
+		; Save variable by pushing them to the stack
+		push mpr
+		in mpr, SREG
+		push mpr
+		
+		; Freeze Robot
+		ldi mpr, Halt	
+		out PORTB, mpr		
+		
+		; Wait 5 Seconds
+		ldi olcnt, 5
+FreezeLoop: ; Loop Wait 1 Second 5 times
+		rcall Wait
+		dec olcnt
+		brne FreezeLoop
+
+		; Decrement Freeze Counter
+		dec frzcnt
+		brne Return	; If Freeze Counter is Not Zero, return 
+		rcall Frozen	; Else, Freeze until reset
+		
+Return:	; Begin Moving Forward again
+		ldi mpr, MovFwd
+		out PORTB, mpr
+
+		; Restore variable by popping them from the stack in reverse order
+		pop mpr
+		out SREG, mpr
+		pop mpr
+		ret		; End a function with RET
+
+;-----------------------------------------------------------
+; Func: Frozen
+; Desc: Freezes the robot indefinetly by polling the buttons until
+; 		the 7th button has been pressed to reset the robot
+; 		
+;-----------------------------------------------------------
+Frozen:	
+		; Save variable by pushing them to the stack
+		push mpr
+		in mpr, SREG
+		push mpr
+		
+FrozenLoop:	; Loop until Reset Button Pressed
+		in mpr, PIND		; Get Button Input
+		sbrc mpr, ResetBtn	; If Reset Button is Pressed (Active Low) escape loop
+		rjmp FrozenLoop		; Else, continue looping
+
+		ldi frzcnt, 3		; Reset Freeze Counter
+
+		; Restore variable by popping them from the stack in reverse order
+		pop mpr
+		out SREG, mpr
+		pop mpr
+		ret		; End a function with RET
+
 
 ;***********************************************************
 ;*	Stored Program Data
