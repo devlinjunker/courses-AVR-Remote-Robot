@@ -36,7 +36,7 @@
 .equ	TurnR =   ($80|1<<(EngDirL-1))					;0b10100000 Turn Right Command
 .equ	TurnL =   ($80|1<<(EngDirR-1))					;0b10010000 Turn Left Command
 .equ	Halt =    ($80|1<<(EngEnR-1)|1<<(EngEnL-1))		;0b11001000 Halt Command
-.equ	Freez =   ($80|$F8)
+.equ	Freez =   ($80|$F8)								;0b11111000 Freeze Command
 ;***********************************************************
 ;*	Start of Code Segment
 ;***********************************************************
@@ -123,25 +123,26 @@ MAIN:
 ; 		4nd button = Turn Left
 ; 		5rd button = Turn Right
 ; 		6th button = Halt
+; 		7th button = Freeze
 ; 		
 ;-----------------------------------------------------------
 sendCmd:
 
 		; Send BotID
-		ldi mpr, BotID			; Load BotID into register
-		sts UDR1, mpr			; Output on Transmitter
+		ldi mpr, BotID		; Load BotID into register
+		sts UDR1, mpr		; Output on Transmitter
 		out PORTB, mpr		
 
 IDLoop:	; Wait for transmission to finish
 		lds mpr, UCSR1A
 		sbrs mpr, UDRE1
-		rjmp IDLoop				; Loop Until ID Sent
+		rjmp IDLoop			; Loop Until ID Sent
 
 		ldi mpr, $00
 		out PORTB, mpr
 
 checkFwd:	; Check if Forward Button was pressed
-		cpi cmdr, (1<<0) 	; Check if First Button Pressed
+		cpi cmdr, (1<<0) 	; Check if 0th Button Pressed
 		brne checkBack		; If not go to next button
 
 		ldi mpr, MovFwd		; Load Move Fowards Command into register
@@ -149,7 +150,7 @@ checkFwd:	; Check if Forward Button was pressed
 		rjmp end			; jump to end
 
 checkBack:	; Check if Back Button was pressed
-		cpi cmdr, (1<<1) 	; Check if Second Button Pressed
+		cpi cmdr, (1<<1) 	; Check if 1st Button Pressed
 		brne checkLeft		; If not go to next button
 		
 		ldi mpr, MovBck		; Load Move Backward Command into register
@@ -157,7 +158,7 @@ checkBack:	; Check if Back Button was pressed
 		rjmp end			; jump to end
 
 checkLeft:	; Check if Left Button was pressed
-		cpi cmdr, (1<<4)	; Check if Third Button Pressed
+		cpi cmdr, (1<<4)	; Check if 5th button Pressed
 		brne checkRight		; If not go to next button
 
 		ldi mpr, TurnL		; Load Turn Left Command into register
@@ -165,7 +166,7 @@ checkLeft:	; Check if Left Button was pressed
 		rjmp end			; jump to end
 
 checkRight:	; Check if Right Button was pressed
-		cpi cmdr, (1<<5)	; Check if Fourth Button Pressed
+		cpi cmdr, (1<<5)	; Check if 6th Button Pressed
 		brne checkHalt		; If not go to next button
 
 		ldi mpr, TurnR		; Load Turn Right Command into register
@@ -173,10 +174,18 @@ checkRight:	; Check if Right Button was pressed
 		rjmp end			; jump to end
 
 checkHalt:	; Check if Halt Button was pressed
-		cpi cmdr, (1<<6)	; Check if Fifth Button Pressed
-		brne end			; If not go to end
+		cpi cmdr, (1<<6)	; Check if 7th Button Pressed
+		brne checkFreeze	; If not go to next button
 		
 		ldi mpr, Halt		; Load Halt Command into register
+		sts UDR1, mpr		; Output to transmitter
+		rjmp end			; jump to end
+
+checkFreeze:	; Check if Freeze Button was pressed
+		cpi cmdr, (1<<7)	; Check if 8th Button Pressed
+		brne end			; If not go to end
+		
+		ldi mpr, Freez		; Load Freeze Command into register
 		sts UDR1, mpr		; Output to transmitter
 		rjmp end			; jump to end
 

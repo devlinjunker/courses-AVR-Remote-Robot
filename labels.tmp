@@ -5,7 +5,7 @@
  <INCLUDE_PATH>
   <DIR>C:\Program Files (x86)\Atmel\AVR Tools\AvrAssembler2\Appnotes</DIR>
  </INCLUDE_PATH>
- <SOURCE_FILE>C:\Users\Devlin\Dropbox\CS Stuff\ECE 375\AVR4\Lab6\TestTransmitter.asm</SOURCE_FILE>
+ <SOURCE_FILE>C:\Users\Devlin\Dropbox\CS Stuff\ECE 375\AVR4\Lab6\Robot.asm</SOURCE_FILE>
  <INCLUDED_FILES>
   <FILE>C:\Program Files (x86)\Atmel\AVR Tools\AvrAssembler2\Appnotes\m128def.inc</FILE>
  </INCLUDED_FILES>
@@ -19,14 +19,26 @@
   <FILE>C:\Users\Devlin\Dropbox\CS Stuff\ECE 375\AVR4\Lab6\Lab6.map</FILE>
  </OUTPUT_FILES>
  <LABELS>
-  <INIT><FILE>C:\Users\Devlin\Dropbox\CS Stuff\ECE 375\AVR4\Lab6\TestTransmitter.asm</FILE><LINE>44</LINE></INIT>
-  <Transmit><FILE>C:\Users\Devlin\Dropbox\CS Stuff\ECE 375\AVR4\Lab6\TestTransmitter.asm</FILE><LINE>105</LINE></Transmit>
-  <Recieve><FILE>C:\Users\Devlin\Dropbox\CS Stuff\ECE 375\AVR4\Lab6\TestTransmitter.asm</FILE><LINE>117</LINE></Recieve>
-  <MAIN><FILE>C:\Users\Devlin\Dropbox\CS Stuff\ECE 375\AVR4\Lab6\TestTransmitter.asm</FILE><LINE>93</LINE></MAIN>
-  <BlinkLoop><FILE>C:\Users\Devlin\Dropbox\CS Stuff\ECE 375\AVR4\Lab6\TestTransmitter.asm</FILE><LINE>123</LINE></BlinkLoop>
-  <Wait><FILE>C:\Users\Devlin\Dropbox\CS Stuff\ECE 375\AVR4\Lab6\TestTransmitter.asm</FILE><LINE>143</LINE></Wait>
-  <Loop><FILE>C:\Users\Devlin\Dropbox\CS Stuff\ECE 375\AVR4\Lab6\TestTransmitter.asm</FILE><LINE>151</LINE></Loop>
-  <OLoop><FILE>C:\Users\Devlin\Dropbox\CS Stuff\ECE 375\AVR4\Lab6\TestTransmitter.asm</FILE><LINE>152</LINE></OLoop>
-  <ILoop><FILE>C:\Users\Devlin\Dropbox\CS Stuff\ECE 375\AVR4\Lab6\TestTransmitter.asm</FILE><LINE>153</LINE></ILoop>
+  <INIT><FILE>C:\Users\Devlin\Dropbox\CS Stuff\ECE 375\AVR4\Lab6\Robot.asm</FILE><LINE>80</LINE></INIT>
+  <HitRight><FILE>C:\Users\Devlin\Dropbox\CS Stuff\ECE 375\AVR4\Lab6\Robot.asm</FILE><LINE>184</LINE></HitRight>
+  <HitLeft><FILE>C:\Users\Devlin\Dropbox\CS Stuff\ECE 375\AVR4\Lab6\Robot.asm</FILE><LINE>221</LINE></HitLeft>
+  <RecieveID><FILE>C:\Users\Devlin\Dropbox\CS Stuff\ECE 375\AVR4\Lab6\Robot.asm</FILE><LINE>149</LINE></RecieveID>
+  <MAIN><FILE>C:\Users\Devlin\Dropbox\CS Stuff\ECE 375\AVR4\Lab6\Robot.asm</FILE><LINE>136</LINE></MAIN>
+  <RcvSkip><FILE>C:\Users\Devlin\Dropbox\CS Stuff\ECE 375\AVR4\Lab6\Robot.asm</FILE><LINE>170</LINE></RcvSkip>
+  <CmdLoop><FILE>C:\Users\Devlin\Dropbox\CS Stuff\ECE 375\AVR4\Lab6\Robot.asm</FILE><LINE>161</LINE></CmdLoop>
+  <Recieve><FILE>C:\Users\Devlin\Dropbox\CS Stuff\ECE 375\AVR4\Lab6\Robot.asm</FILE><LINE>167</LINE></Recieve>
+  <RecieveCmd><FILE>C:\Users\Devlin\Dropbox\CS Stuff\ECE 375\AVR4\Lab6\Robot.asm</FILE><LINE>285</LINE></RecieveCmd>
+  <Wait><FILE>C:\Users\Devlin\Dropbox\CS Stuff\ECE 375\AVR4\Lab6\Robot.asm</FILE><LINE>256</LINE></Wait>
+  <Loop><FILE>C:\Users\Devlin\Dropbox\CS Stuff\ECE 375\AVR4\Lab6\Robot.asm</FILE><LINE>264</LINE></Loop>
+  <OLoop><FILE>C:\Users\Devlin\Dropbox\CS Stuff\ECE 375\AVR4\Lab6\Robot.asm</FILE><LINE>265</LINE></OLoop>
+  <ILoop><FILE>C:\Users\Devlin\Dropbox\CS Stuff\ECE 375\AVR4\Lab6\Robot.asm</FILE><LINE>266</LINE></ILoop>
+  <checkBack><FILE>C:\Users\Devlin\Dropbox\CS Stuff\ECE 375\AVR4\Lab6\Robot.asm</FILE><LINE>301</LINE></checkBack>
+  <exit><FILE>C:\Users\Devlin\Dropbox\CS Stuff\ECE 375\AVR4\Lab6\Robot.asm</FILE><LINE>341</LINE></exit>
+  <checkLeft><FILE>C:\Users\Devlin\Dropbox\CS Stuff\ECE 375\AVR4\Lab6\Robot.asm</FILE><LINE>309</LINE></checkLeft>
+  <checkRight><FILE>C:\Users\Devlin\Dropbox\CS Stuff\ECE 375\AVR4\Lab6\Robot.asm</FILE><LINE>317</LINE></checkRight>
+  <checkHalt><FILE>C:\Users\Devlin\Dropbox\CS Stuff\ECE 375\AVR4\Lab6\Robot.asm</FILE><LINE>325</LINE></checkHalt>
+  <checkFreeze><FILE>C:\Users\Devlin\Dropbox\CS Stuff\ECE 375\AVR4\Lab6\Robot.asm</FILE><LINE>333</LINE></checkFreeze>
+  <sendFreeze><FILE>C:\Users\Devlin\Dropbox\CS Stuff\ECE 375\AVR4\Lab6\Robot.asm</FILE><LINE>354</LINE></sendFreeze>
+  <transmitLoop><FILE>C:\Users\Devlin\Dropbox\CS Stuff\ECE 375\AVR4\Lab6\Robot.asm</FILE><LINE>369</LINE></transmitLoop>
  </LABELS>
 </ASSEMBLER_INFO>

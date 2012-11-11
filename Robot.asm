@@ -46,6 +46,8 @@
 .equ	TurnR =   (1<<EngDirL)				;0b01000000 Turn Right Command
 .equ	TurnL =   (1<<EngDirR)				;0b00100000 Turn Left Command
 .equ	Halt =    (1<<EngEnR|1<<EngEnL)		;0b10010000 Halt Command
+.equ	Freez =   $F0						;0b11110000 Freeze Command
+.equ	Freezing =   $55					;0b11110000 Freeze Command
 
 ;***********************************************************
 ;*	Start of Code Segment
@@ -97,7 +99,7 @@ INIT:
 	
 	;USART1
 	;Enable receiver and Enable receive interrupts
-	ldi mpr, (1<<TXEN1)|(1<<RXEN1)|(1<<RXCIE1)
+	ldi mpr, (1<<RXEN1)|(1<<RXCIE1)
 	sts UCSR1B, mpr
 	
 	;Set frame format: 8data, 2 stop bit
@@ -198,6 +200,10 @@ HitRight:
 		ldi waitcnt, WTime
 		rcall Wait
 		
+		; Begin Moving Forward
+		ldi mpr, MovFwd
+		out PORTB, mpr
+
 		; Restore variable by popping them from the stack in reverse order
 		pop mpr
 		out SREG, mpr
@@ -230,7 +236,11 @@ HitLeft:
 		out PORTB, mpr
 		ldi waitcnt, WTime
 		rcall Wait
-		
+
+		; Begin Moving Forward
+		ldi mpr, MovFwd
+		out PORTB, mpr		
+
 		; Restore variable by popping them from the stack in reverse order
 		pop mpr
 		out SREG, mpr
@@ -267,10 +277,10 @@ ILoop:	dec ilcnt
 		ret		; End a function with RET
 
 ;-----------------------------------------------------------
-; Func: RecieveID
-; Desc: Obtains first signal from receiever buffer and compares
-; 		against the designated BotID. If our BOT, poll reciever
-; 		complete flag until command recieved then call RecieveCommand
+; Func: RecieveCmd
+; Desc: Obtains second signal from receiever buffer once BotID matches
+; 		and checks against a list of commands to see which command it
+; 		should output to the motors.
 ;-----------------------------------------------------------
 RecieveCmd:	
 		; Save variable by pushing them to the stack
@@ -314,14 +324,57 @@ checkRight:
 
 checkHalt:
 		cpi mpr, Halt	; Compare against Halt Command 
-		brne exit 		; If not Halt check Exit
+		brne checkFreeze; If not Halt check Freeze
 
 		ldi mpr, Halt	; If equal, load Command into mpr
 		out PORTB, mpr
 		rjmp exit
 
+checkFreeze:
+		cpi mpr, Freez	; Compare against Freeze Command 
+		brne exit 		; If not Freeze Exit
+
+		rcall sendFreeze; If equal, call Send Freeze Routine
+		out PORTB, mpr
+		rjmp exit
+
 exit: 
 		; Restore variable by popping them from the stack in reverse order
+		pop mpr
+		out SREG, mpr
+		pop mpr
+		ret		; End a function with RET
+
+;-----------------------------------------------------------
+; Func: sendFreeze
+; Desc: Sends the freeze command to any other robots it's IR signal
+; 		reaches.
+; 		
+;-----------------------------------------------------------
+sendFreeze:	
+		; Save variable by pushing them to the stack
+		push mpr
+		in mpr, SREG
+		push mpr
+		
+
+		;Enable transmitter and disable reciever
+		ldi mpr, (1<<TXEN1)|(1<<RXCIE1)
+		sts UCSR1B, mpr	
+
+		; Load in Freezing Command
+		ldi mpr, Freezing
+		sts UDR1, mpr		; Transmit Command
+
+transmitLoop:	; Wait for any transmissions to finish
+		lds mpr, UCSR1A	
+		sbrs mpr, UDRE1	
+		rjmp transmitLoop	; Loop if transmission not finished
+
+		;Enable reciever and disable transmitter
+		ldi mpr, (1<<RXEN1)|(1<<RXCIE1)
+		sts UCSR1B, mpr	
+
 		pop mpr
 		out SREG, mpr
 		pop mpr
