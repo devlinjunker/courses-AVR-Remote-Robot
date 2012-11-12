@@ -19,26 +19,26 @@
   <FILE>C:\Users\Devlin\Dropbox\CS Stuff\ECE 375\AVR4\Lab6\Lab6.map</FILE>
  </OUTPUT_FILES>
  <LABELS>
-  <INIT><FILE>C:\Users\Devlin\Dropbox\CS Stuff\ECE 375\AVR4\Lab6\Robot.asm</FILE><LINE>97</LINE></INIT>
-  <HitRight><FILE>C:\Users\Devlin\Dropbox\CS Stuff\ECE 375\AVR4\Lab6\Robot.asm</FILE><LINE>221</LINE></HitRight>
-  <HitLeft><FILE>C:\Users\Devlin\Dropbox\CS Stuff\ECE 375\AVR4\Lab6\Robot.asm</FILE><LINE>256</LINE></HitLeft>
-  <ReceiveID><FILE>C:\Users\Devlin\Dropbox\CS Stuff\ECE 375\AVR4\Lab6\Robot.asm</FILE><LINE>175</LINE></ReceiveID>
-  <MAIN><FILE>C:\Users\Devlin\Dropbox\CS Stuff\ECE 375\AVR4\Lab6\Robot.asm</FILE><LINE>160</LINE></MAIN>
-  <CheckID><FILE>C:\Users\Devlin\Dropbox\CS Stuff\ECE 375\AVR4\Lab6\Robot.asm</FILE><LINE>195</LINE></CheckID>
-  <End><FILE>C:\Users\Devlin\Dropbox\CS Stuff\ECE 375\AVR4\Lab6\Robot.asm</FILE><LINE>207</LINE></End>
-  <Freeze><FILE>C:\Users\Devlin\Dropbox\CS Stuff\ECE 375\AVR4\Lab6\Robot.asm</FILE><LINE>387</LINE></Freeze>
-  <CmdLoop><FILE>C:\Users\Devlin\Dropbox\CS Stuff\ECE 375\AVR4\Lab6\Robot.asm</FILE><LINE>199</LINE></CmdLoop>
-  <ReceiveCmd><FILE>C:\Users\Devlin\Dropbox\CS Stuff\ECE 375\AVR4\Lab6\Robot.asm</FILE><LINE>319</LINE></ReceiveCmd>
-  <Wait><FILE>C:\Users\Devlin\Dropbox\CS Stuff\ECE 375\AVR4\Lab6\Robot.asm</FILE><LINE>289</LINE></Wait>
-  <Loop><FILE>C:\Users\Devlin\Dropbox\CS Stuff\ECE 375\AVR4\Lab6\Robot.asm</FILE><LINE>297</LINE></Loop>
-  <OLoop><FILE>C:\Users\Devlin\Dropbox\CS Stuff\ECE 375\AVR4\Lab6\Robot.asm</FILE><LINE>298</LINE></OLoop>
-  <ILoop><FILE>C:\Users\Devlin\Dropbox\CS Stuff\ECE 375\AVR4\Lab6\Robot.asm</FILE><LINE>299</LINE></ILoop>
-  <motorCmd><FILE>C:\Users\Devlin\Dropbox\CS Stuff\ECE 375\AVR4\Lab6\Robot.asm</FILE><LINE>335</LINE></motorCmd>
-  <SendFreeze><FILE>C:\Users\Devlin\Dropbox\CS Stuff\ECE 375\AVR4\Lab6\Robot.asm</FILE><LINE>350</LINE></SendFreeze>
-  <exit><FILE>C:\Users\Devlin\Dropbox\CS Stuff\ECE 375\AVR4\Lab6\Robot.asm</FILE><LINE>338</LINE></exit>
-  <transmitLoop><FILE>C:\Users\Devlin\Dropbox\CS Stuff\ECE 375\AVR4\Lab6\Robot.asm</FILE><LINE>365</LINE></transmitLoop>
-  <FreezeLoop><FILE>C:\Users\Devlin\Dropbox\CS Stuff\ECE 375\AVR4\Lab6\Robot.asm</FILE><LINE>399</LINE></FreezeLoop>
-  <Return><FILE>C:\Users\Devlin\Dropbox\CS Stuff\ECE 375\AVR4\Lab6\Robot.asm</FILE><LINE>409</LINE></Return>
+  <INIT><FILE>C:\Users\Devlin\Dropbox\CS Stuff\ECE 375\AVR4\Lab6\Robot.asm</FILE><LINE>98</LINE></INIT>
+  <HitRight><FILE>C:\Users\Devlin\Dropbox\CS Stuff\ECE 375\AVR4\Lab6\Robot.asm</FILE><LINE>222</LINE></HitRight>
+  <HitLeft><FILE>C:\Users\Devlin\Dropbox\CS Stuff\ECE 375\AVR4\Lab6\Robot.asm</FILE><LINE>257</LINE></HitLeft>
+  <ReceiveID><FILE>C:\Users\Devlin\Dropbox\CS Stuff\ECE 375\AVR4\Lab6\Robot.asm</FILE><LINE>176</LINE></ReceiveID>
+  <MAIN><FILE>C:\Users\Devlin\Dropbox\CS Stuff\ECE 375\AVR4\Lab6\Robot.asm</FILE><LINE>161</LINE></MAIN>
+  <CheckID><FILE>C:\Users\Devlin\Dropbox\CS Stuff\ECE 375\AVR4\Lab6\Robot.asm</FILE><LINE>196</LINE></CheckID>
+  <End><FILE>C:\Users\Devlin\Dropbox\CS Stuff\ECE 375\AVR4\Lab6\Robot.asm</FILE><LINE>208</LINE></End>
+  <Freeze><FILE>C:\Users\Devlin\Dropbox\CS Stuff\ECE 375\AVR4\Lab6\Robot.asm</FILE><LINE>388</LINE></Freeze>
+  <CmdLoop><FILE>C:\Users\Devlin\Dropbox\CS Stuff\ECE 375\AVR4\Lab6\Robot.asm</FILE><LINE>200</LINE></CmdLoop>
+  <ReceiveCmd><FILE>C:\Users\Devlin\Dropbox\CS Stuff\ECE 375\AVR4\Lab6\Robot.asm</FILE><LINE>320</LINE></ReceiveCmd>
+  <Wait><FILE>C:\Users\Devlin\Dropbox\CS Stuff\ECE 375\AVR4\Lab6\Robot.asm</FILE><LINE>290</LINE></Wait>
+  <Loop><FILE>C:\Users\Devlin\Dropbox\CS Stuff\ECE 375\AVR4\Lab6\Robot.asm</FILE><LINE>298</LINE></Loop>
+  <OLoop><FILE>C:\Users\Devlin\Dropbox\CS Stuff\ECE 375\AVR4\Lab6\Robot.asm</FILE><LINE>299</LINE></OLoop>
+  <ILoop><FILE>C:\Users\Devlin\Dropbox\CS Stuff\ECE 375\AVR4\Lab6\Robot.asm</FILE><LINE>300</LINE></ILoop>
+  <motorCmd><FILE>C:\Users\Devlin\Dropbox\CS Stuff\ECE 375\AVR4\Lab6\Robot.asm</FILE><LINE>336</LINE></motorCmd>
+  <SendFreeze><FILE>C:\Users\Devlin\Dropbox\CS Stuff\ECE 375\AVR4\Lab6\Robot.asm</FILE><LINE>351</LINE></SendFreeze>
+  <exit><FILE>C:\Users\Devlin\Dropbox\CS Stuff\ECE 375\AVR4\Lab6\Robot.asm</FILE><LINE>339</LINE></exit>
+  <transmitLoop><FILE>C:\Users\Devlin\Dropbox\CS Stuff\ECE 375\AVR4\Lab6\Robot.asm</FILE><LINE>366</LINE></transmitLoop>
+  <FreezeLoop><FILE>C:\Users\Devlin\Dropbox\CS Stuff\ECE 375\AVR4\Lab6\Robot.asm</FILE><LINE>400</LINE></FreezeLoop>
+  <Return><FILE>C:\Users\Devlin\Dropbox\CS Stuff\ECE 375\AVR4\Lab6\Robot.asm</FILE><LINE>410</LINE></Return>
   <Frozen><FILE>C:\Users\Devlin\Dropbox\CS Stuff\ECE 375\AVR4\Lab6\Robot.asm</FILE><LINE>426</LINE></Frozen>
   <FrozenLoop><FILE>C:\Users\Devlin\Dropbox\CS Stuff\ECE 375\AVR4\Lab6\Robot.asm</FILE><LINE>432</LINE></FrozenLoop>
  </LABELS>

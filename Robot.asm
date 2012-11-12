@@ -34,6 +34,7 @@
 .def 	ilcnt = r19 			; Inner Loop Counter
 .def	olcnt = r20				; Outer Loop Counter
 .def	frzcnt = r21			; Number of Freezes Counter
+.def 	loopcnt = r22
 
 ; Wait Time Constant
 .equ	WTime = 100
@@ -49,7 +50,7 @@
 .equ	EngDirR = 5				; Right Engine Direction Bit
 .equ	EngDirL = 6				; Left Engine Direction Bit
 
-.equ	BotID = 0b00110011		; Unique XD ID (MSB = 0)
+.equ	BotID = 0b00110010		; Unique XD ID (MSB = 0)
 
 ;/////////////////////////////////////////////////////////////
 ;These macros are the values to make the TekBot Move.
@@ -182,7 +183,7 @@ ReceiveID:
 		lds sigr, UDR1 	; Get signal from buffer
 		
 		; Check if is a BotId
-		sbrs mpr, 7		;(If 7th bit is set, it is a BotID)
+		sbrs sigr, 7		;(If 7th bit is not set, it is a BotID)
 		rjmp CheckID	;If it is, jump to checkID	
 						
 						;if it's not, check if Robot should freeze
@@ -395,10 +396,10 @@ Freeze:
 		out PORTB, mpr		
 		
 		; Wait 5 Seconds
-		ldi olcnt, 5
+		ldi loopcnt, 5
 FreezeLoop: ; Loop Wait 1 Second 5 times
 		rcall Wait
-		dec olcnt
+		dec loopcnt
 		brne FreezeLoop
 
 		; Decrement Freeze Counter

@@ -1,5 +1,5 @@
 
-AVRASM ver. 2.1.42  C:\Users\Devlin\Dropbox\CS Stuff\ECE 375\AVR4\Lab6\Robot.asm Sun Nov 11 14:47:05 2012
+AVRASM ver. 2.1.42  C:\Users\Devlin\Dropbox\CS Stuff\ECE 375\AVR4\Lab6\Robot.asm Mon Nov 12 12:32:00 2012
 
 
 EQU  SIGNATURE_000 0000001e
@@ -873,6 +873,7 @@ DEF  waitcnt      r18
 DEF  ilcnt        r19
 DEF  olcnt        r20
 DEF  frzcnt       r21
+DEF  loopcnt      r22
 EQU  WTime        00000064
 EQU  WskrR        00000000
 EQU  WskrL        00000001
@@ -881,7 +882,7 @@ EQU  EngEnR       00000004
 EQU  EngEnL       00000007
 EQU  EngDirR      00000005
 EQU  EngDirL      00000006
-EQU  BotID        00000033
+EQU  BotID        00000032
 EQU  MovFwd       00000060
 EQU  MovBck       00000000
 EQU  TurnR        00000040
