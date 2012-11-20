@@ -50,7 +50,7 @@
 .equ	EngDirR = 5				; Right Engine Direction Bit
 .equ	EngDirL = 6				; Left Engine Direction Bit
 
-.equ	BotID = 0b00110010		; Unique XD ID (MSB = 0)
+.equ	BotID = 0b00110011		; Unique XD ID (MSB = 0)
 
 ;/////////////////////////////////////////////////////////////
 ;These macros are the values to make the TekBot Move.
